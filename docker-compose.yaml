@@ -1,0 +1,37 @@
+version: '3.1'
+services:
+  
+  starlink-api:
+    image: starlink-local:latest
+    hostname: starlink-api
+    restart: always
+    entrypoint: python main.py
+    environment:
+      AWS_DEFAULT_REGION: us-west-2
+      AWS_ACCESS_KEY_ID: 
+      AWS_SECRET_ACCESS_KEY: 
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - network-test
+  
+  starlink-etl:
+    image: starlink-local:latest
+    hostname: starlink-etl
+    entrypoint: python etls/etl.py
+    environment:
+      AWS_DEFAULT_REGION: us-west-2
+      AWS_ACCESS_KEY_ID: 
+      AWS_SECRET_ACCESS_KEY: 
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - network-test
+
+networks:
+  network-test:
+    driver: bridge

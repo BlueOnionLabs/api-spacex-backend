@@ -1,8 +1,39 @@
-# Blue Onion Labs Take Home Test
+# Luiz Menniti - Case Study
 
-Hey! We are stoked that you are interested in joining the team at Blue Onion Labs.
+# Question 1
+I`ve setup a docker-compose that has 1 image, that starts 2 container
+The credentials is setup already into docker-compose
 
-We have crafted the following test to see how you approach pulling and manipulating of data. We want to get a general idea of how you approach some common types of problems that we encounter here at Blue Onion (we are really proficient at integrations!)
+Container 1 - That provides a API that allow to send a query into API as a parameter query 
+
+The system do a query directly from Amazon Athena Serverless Warehouse, using a single API rest
+
+With postman -> `http://localhost:5000/athena_api?query=select * from starlink_test limit 10` 
+
+Container 2 - Start ETL read the json file and upload it into S3 bucket
+
+Benefits
+- No need to manage. 
+- The solution provides big scale, something that postgres/mysql are not designed to handle
+- Glue Metastore, is the Hive metastore managed services from Amazon (Free) 
+- Data saved directly on S3 bucket, so the costs of amount of data stored are very cheap comparing with SSD.
+- The ETLs, can be started directly from a image docker, allowing us to grow the ETLs and schedule it with K8s
+
+# Question 2-4
+
+The answers for all sqls, is inside of ./sql path
+
+# Run the system
+
+docker-compose up --build
+
+Thanks 
+
+# Home Test
+
+Hey! We are stoked that you are interested in joining the team.
+
+We have crafted the following test to see how you approach pulling and manipulating of data. We want to get a general idea of how you approach some common types of problems that we encounter here
 
 ## Background
 [spacexdata.com](https://docs.spacexdata.com/) provides an API to query attributes about SpaceX launches (https://github.com/r-spacex/SpaceX-API/tree/master/docs#rspacex-api-docs). For this exercise we are going to be working with one resource in particular:
